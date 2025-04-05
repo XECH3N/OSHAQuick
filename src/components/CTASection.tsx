@@ -10,11 +10,9 @@ interface CTASectionProps {
 }
 
 const CTASection = ({ className }: CTASectionProps) => {
-  const handleBundlePurchase = () => {
-    // This would connect to your payment processor
-    console.log("Purchasing bundle");
-    alert("This would take you to checkout for the complete bundle");
-  };
+  const bundleUrl = 'https://sachinlord.gumroad.com/l/beord?wanted=true';
+  const bundlePrice = 20.00;
+  const originalPrice = 25.97; // Sum of individual prices: 7.99 + 4.99 + 12.99
 
   return (
     <section className={cn(
@@ -37,7 +35,7 @@ const CTASection = ({ className }: CTASectionProps) => {
               Get The Complete OSHA Compliance Bundle
             </h2>
             <p className="text-xl mb-6 text-primary-100">
-              All 3 premium PDFs for only $14.99 - Save 28% until April 17, 2025
+              All 3 premium PDFs for only ${bundlePrice.toFixed(2)} - Save ${(originalPrice - bundlePrice).toFixed(2)}
             </p>
             <div className="bg-white/10 rounded-lg p-6 mb-8">
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
@@ -55,12 +53,12 @@ const CTASection = ({ className }: CTASectionProps) => {
                 </div>
               </div>
               <div className="flex justify-center items-center">
-                <span className="text-3xl font-bold mr-4">$14.99</span>
-                <span className="text-xl line-through text-primary-200">$20.97</span>
+                <span className="text-3xl font-bold mr-4">${bundlePrice.toFixed(2)}</span>
+                <span className="text-xl line-through text-primary-200">${originalPrice.toFixed(2)}</span>
               </div>
             </div>
             <Button 
-              onClick={handleBundlePurchase}
+              onClick={() => window.open(bundleUrl, '_blank')}
               className="bg-secondary hover:bg-secondary-700 text-white text-lg py-6 px-8 group transition-all duration-300 transform hover:scale-105"
             >
               Get All 3 Documents Now

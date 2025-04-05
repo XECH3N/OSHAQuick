@@ -10,6 +10,8 @@ interface HeroProps {
 }
 
 const Hero = ({ className }: HeroProps) => {
+  const bundleUrl = 'https://sachinlord.gumroad.com/l/beord?wanted=true';
+
   return (
     <section 
       className={cn(
@@ -41,7 +43,7 @@ const Hero = ({ className }: HeroProps) => {
             >
               <Button 
                 className="bg-red-600 hover:bg-red-700 text-white text-lg py-6 px-8 shadow-lg"
-                onClick={() => window.location.href = "https://checkout.oshaquick.xyz"}
+                onClick={() => window.open(bundleUrl, '_blank')}
               >
                 Download Checklist Now
               </Button>

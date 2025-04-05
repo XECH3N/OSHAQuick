@@ -4,6 +4,8 @@ import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import Hero from '@/components/Hero';
 import SecurityBanner from '@/components/SecurityBanner';
+import ProductsSection from '@/components/ProductsSection';
+import CTASection from '@/components/CTASection';
 
 const Index = () => {
   React.useEffect(() => {
@@ -21,6 +23,8 @@ const Index = () => {
       
       <main className="flex-grow">
         <Hero />
+        <ProductsSection />
+        <CTASection />
         <SecurityBanner />
       </main>
       
