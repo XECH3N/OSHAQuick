@@ -2,66 +2,45 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import Logo from './Logo';
+import { motion } from 'framer-motion';
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
   
   return (
-    <footer className="bg-gray-50 pt-12 pb-8">
+    <footer className="bg-gray-50 pt-8 pb-6">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
-          <div className="col-span-1 md:col-span-2">
+        <div className="flex flex-col md:flex-row justify-between items-center">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+          >
             <Logo />
-            <p className="mt-4 text-gray-600 max-w-md">
-              OSHAQuick provides secure, professional OSHA compliance solutions to help businesses maintain safety standards and protect their workforce.
+            <p className="mt-2 text-gray-500 text-sm max-w-md">
+              Professional OSHA compliance solutions to help businesses maintain safety standards and protect their workforce.
             </p>
-          </div>
+          </motion.div>
           
-          <div>
-            <h3 className="text-lg font-semibold mb-4">Quick Links</h3>
-            <ul className="space-y-2">
-              <li>
-                <Link to="/" className="text-gray-600 hover:text-primary-700">
-                  Home
-                </Link>
-              </li>
-              <li>
-                <Link to="/legal" className="text-gray-600 hover:text-primary-700">
-                  Legal
-                </Link>
-              </li>
-            </ul>
-          </div>
-          
-          <div>
-            <h3 className="text-lg font-semibold mb-4">Security</h3>
-            <ul className="space-y-2">
-              <li>
-                <Link to="/.well-known/security.txt" className="text-gray-600 hover:text-primary-700">
-                  Security.txt
-                </Link>
-              </li>
-              <li>
-                <Link to="/sitemap.xml" className="text-gray-600 hover:text-primary-700">
-                  Sitemap
-                </Link>
-              </li>
-            </ul>
-          </div>
-        </div>
-        
-        <div className="border-t border-gray-200 mt-8 pt-8 flex flex-col md:flex-row justify-between items-center">
-          <p className="text-gray-500 text-sm">
-            © {currentYear} OSHAQuick. All rights reserved.
-          </p>
-          <div className="mt-4 md:mt-0 flex space-x-4">
-            <Link to="/legal" className="text-gray-500 hover:text-primary-700 text-sm">
-              Privacy Policy
-            </Link>
-            <Link to="/legal" className="text-gray-500 hover:text-primary-700 text-sm">
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.2 }}
+            className="mt-6 md:mt-0"
+          >
+            <Link to="/legal" className="text-primary-700 hover:text-primary-800 font-medium">
               Terms of Service
             </Link>
-          </div>
+          </motion.div>
+        </div>
+        
+        <div className="border-t border-gray-200 mt-6 pt-6 flex flex-col md:flex-row justify-between items-center">
+          <p className="text-gray-500 text-sm">
+            © {currentYear} OSHAQuick. Not affiliated with OSHA.
+          </p>
+          <p className="text-gray-400 text-xs mt-2 md:mt-0">
+            OSHAQuick is a private entity providing compliance resources. Not a government agency.
+          </p>
         </div>
       </div>
     </footer>
