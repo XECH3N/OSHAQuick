@@ -3,7 +3,9 @@ import React from 'react';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import Hero from '@/components/Hero';
-import Features from '@/components/Features';
+import ProductsSection from '@/components/ProductsSection';
+import Testimonials from '@/components/Testimonials';
+import FAQ from '@/components/FAQ';
 import CTASection from '@/components/CTASection';
 import SecurityBanner from '@/components/SecurityBanner';
 
@@ -11,12 +13,12 @@ const Index = () => {
   // Adding meta tags for security (these would normally be in server headers)
   React.useEffect(() => {
     // This would normally be done server-side but for demo purposes:
-    document.title = "OSHAQuick - Security Compliance Made Simple";
+    document.title = "OSHAQuick - Electrical Safety Compliance Documents";
     
     // Add meta description for SEO
     const metaDescription = document.createElement('meta');
     metaDescription.name = 'description';
-    metaDescription.content = 'OSHAQuick provides secure, professional OSHA compliance solutions to help businesses maintain safety standards and protect their workforce.';
+    metaDescription.content = 'Professional OSHA compliance documentation for electricians. Get our compliance checklist, violation report, and training documents to keep your electrical business safe and compliant.';
     document.head.appendChild(metaDescription);
   }, []);
 
@@ -26,7 +28,9 @@ const Index = () => {
       
       <main className="flex-grow">
         <Hero />
-        <Features />
+        <ProductsSection />
+        <Testimonials />
+        <FAQ />
         <SecurityBanner />
         <CTASection />
       </main>

@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { Button } from '@/components/ui/button';
-import { Shield, Check } from 'lucide-react';
+import { Shield, Check, FileText, Calendar } from 'lucide-react';
 import ChecklistItem from './ChecklistItem';
 import { cn } from '@/lib/utils';
 
@@ -20,27 +20,31 @@ const Hero = ({ className }: HeroProps) => {
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
           <div className="order-2 md:order-1 animate-fade-in">
+            <div className="inline-block px-3 py-1 bg-primary-100 text-primary-700 rounded-full text-sm font-semibold mb-4 animate-pulse">
+              LIMITED TIME OFFER | April 5-17, 2025
+            </div>
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight text-gray-900 mb-6">
-              Safety Compliance{' '}
-              <span className="text-primary-700">Made Simple</span>
+              OSHA Compliance{' '}
+              <span className="text-primary-700">Solutions for Electricians</span>
             </h1>
             <p className="text-xl text-gray-600 mb-8 max-w-lg">
-              OSHAQuick helps you maintain compliance with security best practices and OSHA regulations to protect your business.
+              Professional documents designed to keep your electrical business compliant, protect your workers, and avoid costly violations.
             </p>
             
             <div className="space-y-4 mb-8">
-              <ChecklistItem>Fast OSHA compliance verification</ChecklistItem>
-              <ChecklistItem>Secure data handling and storage</ChecklistItem>
-              <ChecklistItem>Professional documentation generation</ChecklistItem>
-              <ChecklistItem>Regular compliance updates</ChecklistItem>
+              <ChecklistItem>Complete OSHA compliance documentation</ChecklistItem>
+              <ChecklistItem>Easy-to-use checklists for job site safety</ChecklistItem>
+              <ChecklistItem>Professional violation reporting templates</ChecklistItem>
+              <ChecklistItem>Comprehensive safety training materials</ChecklistItem>
             </div>
             
             <div className="flex flex-col sm:flex-row gap-4">
-              <Button className="bg-secondary hover:bg-secondary-700 text-lg py-6 px-8">
-                Get Started
+              <Button className="bg-secondary hover:bg-secondary-700 text-lg py-6 px-8 group transition-all duration-300 transform hover:scale-105">
+                Get All 3 PDFs For $14.99
+                <span className="ml-2 text-xs line-through text-secondary-200">$20.97</span>
               </Button>
-              <Button variant="outline" className="text-lg py-6 px-8">
-                Learn More
+              <Button variant="outline" className="text-lg py-6 px-8 hover:bg-primary-50 transition-all duration-300">
+                View Products
               </Button>
             </div>
           </div>
