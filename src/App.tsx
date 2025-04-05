@@ -8,6 +8,7 @@ import Index from "./pages/Index";
 import Legal from "./pages/Legal";
 import SecurityTextPage from "./pages/SecurityTextPage";
 import NotFound from "./pages/NotFound";
+import CheckoutComplete from "./components/CheckoutComplete";
 
 const queryClient = new QueryClient();
 
@@ -21,6 +22,7 @@ const App = () => (
           <Route path="/" element={<Index />} />
           <Route path="/legal" element={<Legal />} />
           <Route path="/.well-known/security.txt" element={<SecurityTextPage />} />
+          <Route path="/checkout/complete" element={<CheckoutComplete />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>

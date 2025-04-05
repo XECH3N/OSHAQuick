@@ -1,10 +1,16 @@
 
-import React from 'react';
+import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
-import { FileText, ShieldCheck, AlertTriangle, Check } from 'lucide-react';
+import { FileText, ShieldCheck, AlertTriangle, Check, Mail } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { cn } from '@/lib/utils';
+import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
+import { useForm } from 'react-hook-form';
+import { useToast } from '@/hooks/use-toast';
 
 interface ProductsSectionProps {
   className?: string;
@@ -12,17 +18,115 @@ interface ProductsSectionProps {
 
 const MotionCard = motion(Card);
 
+interface ProductInfo {
+  id: string;
+  name: string;
+  price: number;
+  paypalId?: string;
+}
+
 const ProductsSection = ({ className }: ProductsSectionProps) => {
+  const { toast } = useToast();
+  const [isCheckoutOpen, setIsCheckoutOpen] = useState(false);
+  const [currentProduct, setCurrentProduct] = useState<ProductInfo | null>(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  
+  const form = useForm({
+    defaultValues: {
+      email: '',
+    },
+  });
+
+  const products: ProductInfo[] = [
+    { 
+      id: 'compliance-checklist', 
+      name: 'Compliance Checklist', 
+      price: 7.99,
+      paypalId: 'compliance-checklist'
+    },
+    { 
+      id: 'violation-report', 
+      name: 'Violation Report', 
+      price: 4.99,
+      paypalId: 'violation-report'
+    },
+    { 
+      id: 'training-document', 
+      name: 'Training Document', 
+      price: 7.99,
+      paypalId: 'training-document'
+    },
+  ];
+
+  const bundlePrice = 14.99;
+  const bundleId = 'complete-bundle';
+
+  // Add PayPal script to the page when component mounts
+  React.useEffect(() => {
+    const script = document.createElement('script');
+    script.src = 'https://www.paypal.com/sdk/js?client-id=sb&currency=USD';
+    script.async = true;
+    document.body.appendChild(script);
+    
+    return () => {
+      document.body.removeChild(script);
+    };
+  }, []);
+
   const handlePurchase = (productId: string) => {
-    // This would connect to your payment processor
-    console.log(`Purchasing product: ${productId}`);
-    // For demonstration - you would replace this with actual payment processing
-    alert(`This would take you to checkout for ${productId}`);
+    const product = products.find(p => p.id === productId);
+    if (product) {
+      setCurrentProduct(product);
+      setIsCheckoutOpen(true);
+    }
   };
 
   const handleBundlePurchase = () => {
-    console.log("Purchasing bundle");
-    alert("This would take you to checkout for the complete bundle");
+    setCurrentProduct({
+      id: bundleId,
+      name: 'Complete Bundle',
+      price: bundlePrice
+    });
+    setIsCheckoutOpen(true);
+  };
+
+  const onSubmit = async (values: { email: string }) => {
+    if (!currentProduct) return;
+    
+    setIsSubmitting(true);
+    
+    // Here you would normally send this to your backend
+    // For now, we'll simulate success
+    try {
+      // This would be an API call to your backend
+      // await fetch('/api/send-product', {
+      //   method: 'POST',
+      //   body: JSON.stringify({
+      //     email: values.email,
+      //     productId: currentProduct.id,
+      //     paymentId: 'simulated-payment-id'
+      //   }),
+      // });
+      
+      // Simulate a server delay
+      await new Promise(resolve => setTimeout(resolve, 1500));
+      
+      toast({
+        title: "Product purchased successfully!",
+        description: `We've sent the ${currentProduct.name} to ${values.email}`,
+      });
+      
+      setIsCheckoutOpen(false);
+      form.reset();
+    } catch (error) {
+      toast({
+        title: "There was a problem",
+        description: "We couldn't process your purchase. Please try again.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const isLimitedTimeOffer = true; // You would calculate this based on date
@@ -195,6 +299,90 @@ const ProductsSection = ({ className }: ProductsSectionProps) => {
           </MotionCard>
         </div>
       </div>
+
+      {/* Checkout Dialog */}
+      <Dialog open={isCheckoutOpen} onOpenChange={setIsCheckoutOpen}>
+        <DialogContent className="sm:max-w-[425px]">
+          <DialogHeader>
+            <DialogTitle>Complete Your Purchase</DialogTitle>
+            <DialogDescription>
+              {currentProduct && (
+                <span>You're purchasing: {currentProduct.name} for ${currentProduct.price}</span>
+              )}
+            </DialogDescription>
+          </DialogHeader>
+          
+          <div className="my-4">
+            <div className="flex justify-center mb-4">
+              <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_blank" className="w-full">
+                <input type="hidden" name="cmd" value="_xclick" />
+                <input type="hidden" name="business" value="sachinthelordt@gmail.com" />
+                <input type="hidden" name="lc" value="US" />
+                <input type="hidden" name="item_name" value={currentProduct?.name || ''} />
+                <input type="hidden" name="amount" value={currentProduct?.price?.toString() || ''} />
+                <input type="hidden" name="currency_code" value="USD" />
+                <input type="hidden" name="button_subtype" value="services" />
+                <input type="hidden" name="no_note" value="0" />
+                <input type="hidden" name="tax_rate" value="0" />
+                <input type="hidden" name="shipping" value="0" />
+                <input type="hidden" name="bn" value="PP-BuyNowBF:btn_buynowCC_LG.gif:NonHostedGuest" />
+                <input 
+                  type="image" 
+                  src="https://www.paypalobjects.com/en_US/i/btn/btn_buynowCC_LG.gif" 
+                  name="submit" 
+                  alt="PayPal - The safer, easier way to pay online!" 
+                  className="mx-auto"
+                />
+                <img 
+                  alt="" 
+                  src="https://www.paypalobjects.com/en_US/i/scr/pixel.gif" 
+                  width="1" 
+                  height="1" 
+                  style={{ border: 0 }} 
+                />
+              </form>
+            </div>
+
+            <div className="text-center my-4">
+              <p className="text-sm text-gray-500">After payment, enter your email to receive your PDF</p>
+            </div>
+
+            <Form {...form}>
+              <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+                <FormField
+                  control={form.control}
+                  name="email"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Email</FormLabel>
+                      <FormControl>
+                        <div className="flex items-center">
+                          <Mail className="mr-2 h-4 w-4 text-muted-foreground" />
+                          <Input placeholder="you@example.com" {...field} />
+                        </div>
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <Button 
+                  type="submit" 
+                  className="w-full mt-4"
+                  disabled={isSubmitting}
+                >
+                  {isSubmitting ? "Processing..." : "Send Me My PDF"}
+                </Button>
+              </form>
+            </Form>
+          </div>
+
+          <DialogFooter className="flex flex-col">
+            <p className="text-xs text-center text-gray-500 mt-4">
+              Your PDF will be sent to your email address immediately after completing both payment and email submission.
+            </p>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </section>
   );
 };
