@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { Button } from '@/components/ui/button';
-import { Shield } from 'lucide-react';
+import { Shield, Check } from 'lucide-react';
 import ChecklistItem from './ChecklistItem';
 import { cn } from '@/lib/utils';
 

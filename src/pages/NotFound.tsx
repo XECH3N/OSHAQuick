@@ -1,5 +1,5 @@
 
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Shield } from 'lucide-react';
 import { Button } from '@/components/ui/button';
